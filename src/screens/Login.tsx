@@ -52,49 +52,60 @@ export function Login({ navigation }) {
   // View
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.centerContainer}>
+      <View style={globalStyles.logoContainer}>
         <Image
           source={require("../assets/img/cryptoLogo.png")}
           style={globalStyles.imagem}
         />
       </View>
 
+      <View style={globalStyles.textContainer}>
+        <Text style={globalStyles.h1}>CryptoTrader</Text>
+        <Text style={globalStyles.h3}>
+          Crie uma conta para começar a operar
+        </Text>
+      </View>
+
       <KeyboardAvoidingView behavior="padding">
-        <Text style={globalStyles.text}>Email *</Text>
-        <TextInput
-          value={email}
-          style={globalStyles.input}
-          placeholder="Seu email"
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-        ></TextInput>
-        <Text style={globalStyles.text}>Senha *</Text>
-        <TextInput
-          value={password}
-          secureTextEntry={true}
-          style={globalStyles.input}
-          placeholder="************"
-          autoCapitalize="none"
-          onChangeText={(text) => setPassword(text)}
-        ></TextInput>
+        <View style={globalStyles.formContainer}>
+          <Text style={globalStyles.label}>Email *</Text>
+          <TextInput
+            value={email}
+            style={globalStyles.input}
+            placeholderTextColor="#B9B9B9"
+            placeholder="Seu email"
+            autoCapitalize="none"
+            onChangeText={(text) => setEmail(text)}
+          ></TextInput>
+          <Text style={globalStyles.label}>Senha *</Text>
+          <TextInput
+            value={password}
+            secureTextEntry={true}
+            style={globalStyles.input}
+            placeholderTextColor="#B9B9B9"
+            placeholder="************"
+            autoCapitalize="none"
+            onChangeText={(text) => setPassword(text)}
+          ></TextInput>
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#ffff" />
-        ) : (
-          <>
-            <Pressable style={globalStyles.mainButton} onPress={signIn}>
-              <Text>Login</Text>
-            </Pressable>
-          </>
-        )}
+          {loading ? (
+            <ActivityIndicator size="large" color="#ffff" />
+          ) : (
+            <>
+              <Pressable style={globalStyles.mainButton} onPress={signIn}>
+                <Text style={globalStyles.mainButtonText}>Login</Text>
+              </Pressable>
+            </>
+          )}
 
-        <View style={globalStyles.centerContainer}>
-          <Text style={globalStyles.text}>Não possui uma conta? </Text>
-          <TouchableOpacity onPress={handleCadastroPress}>
-            <Text style={globalStyles.yellowText}>
-              Realize o cadastro aqui!
+          <View style={globalStyles.centerContainer}>
+            <Text style={globalStyles.text}>
+              Não possui uma conta? Realize o{" "}
             </Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={handleCadastroPress}>
+              <Text style={globalStyles.yellowText}>cadastro</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </View>
