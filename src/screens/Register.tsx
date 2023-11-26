@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Button,
+  Image,
+  Pressable,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
@@ -16,6 +17,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import globalStyles from "../styles/styles";
 
 import Toast from "react-native-toast-message";
+
+// Icons
+import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 export function Register({ navigation }) {
   const [email, setEmail] = useState("");
@@ -89,49 +94,94 @@ export function Register({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
+      <View style={globalStyles.logoContainer}>
+        <Image
+          source={require("../assets/img/cryptoLogo.png")}
+          style={globalStyles.imagem}
+        />
+      </View>
+
+      <View style={globalStyles.textContainer}>
+        <Text style={globalStyles.h1}>Criar conta</Text>
+      </View>
+
       <KeyboardAvoidingView behavior="padding">
-        <Text style={globalStyles.text}>Email *</Text>
-        <TextInput
-          value={email}
-          style={globalStyles.input}
-          placeholder="Seu email"
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-        ></TextInput>
+        <View style={globalStyles.formContainer}>
+          <Text style={globalStyles.label}>Email *</Text>
+          <View>
+            <TextInput
+              value={email}
+              style={globalStyles.input}
+              placeholderTextColor="#B9B9B9"
+              placeholder="Seu email"
+              autoCapitalize="none"
+              onChangeText={(text) => setEmail(text)}
+            ></TextInput>
 
-        <Text style={globalStyles.text}>Senha *</Text>
-        <TextInput
-          value={password}
-          secureTextEntry={true}
-          style={globalStyles.input}
-          placeholder="************"
-          autoCapitalize="none"
-          onChangeText={(text) => setPassword(text)}
-        ></TextInput>
+            <MaterialIcons
+              name="email"
+              size={20}
+              color="#FFFFFF"
+              style={globalStyles.iconInput1}
+            />
+          </View>
 
-        <Text style={globalStyles.text}>Confirme a senha *</Text>
-        <TextInput
-          value={confirmPassword}
-          secureTextEntry={true}
-          style={globalStyles.input}
-          placeholder="************"
-          autoCapitalize="none"
-          onChangeText={(text) => setConfirmPassword(text)}
-        ></TextInput>
+          <Text style={globalStyles.label}>Senha *</Text>
+          <View>
+            <TextInput
+              value={password}
+              secureTextEntry={true}
+              style={globalStyles.input}
+              placeholderTextColor="#B9B9B9"
+              placeholder="************"
+              autoCapitalize="none"
+              onChangeText={(text) => setPassword(text)}
+            ></TextInput>
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#ffff" />
-        ) : (
-          <>
-            <Button title="Registrar" onPress={signUp} />
-          </>
-        )}
+            <FontAwesome
+              name="lock"
+              size={22}
+              color="#FFFFFF"
+              style={globalStyles.iconInput2}
+            />
+          </View>
+
+          <Text style={globalStyles.label}>Confirme a senha *</Text>
+          <View>
+            <TextInput
+              value={confirmPassword}
+              secureTextEntry={true}
+              placeholderTextColor="#B9B9B9"
+              style={globalStyles.input}
+              placeholder="************"
+              autoCapitalize="none"
+              onChangeText={(text) => setConfirmPassword(text)}
+            ></TextInput>
+
+            <FontAwesome
+              name="lock"
+              size={22}
+              color="#FFFFFF"
+              style={globalStyles.iconInput2}
+            />
+          </View>
+
+          {loading ? (
+            <ActivityIndicator size="large" color="#ffff" />
+          ) : (
+            <>
+              <Pressable style={globalStyles.mainButton} onPress={signUp}>
+                <Text style={globalStyles.mainButtonText}>Registrar</Text>
+              </Pressable>
+            </>
+          )}
+        </View>
       </KeyboardAvoidingView>
 
       <View style={globalStyles.centerContainer}>
-        <Text style={globalStyles.text}>Já possui uma conta? </Text>
+        <Text style={globalStyles.text}>Já possui uma conta? Realize o </Text>
         <TouchableOpacity onPress={handleLoginPress}>
-          <Text style={globalStyles.yellowText}>Realize o login aqui!</Text>
+          <Text style={globalStyles.yellowText}>login</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -18,6 +18,10 @@ import globalStyles from "../styles/styles";
 
 import Toast from "react-native-toast-message";
 
+// Icons
+import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+
 export function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,24 +73,43 @@ export function Login({ navigation }) {
       <KeyboardAvoidingView behavior="padding">
         <View style={globalStyles.formContainer}>
           <Text style={globalStyles.label}>Email *</Text>
-          <TextInput
-            value={email}
-            style={globalStyles.input}
-            placeholderTextColor="#B9B9B9"
-            placeholder="Seu email"
-            autoCapitalize="none"
-            onChangeText={(text) => setEmail(text)}
-          ></TextInput>
+          <View>
+            <TextInput
+              value={email}
+              style={globalStyles.input}
+              placeholderTextColor="#B9B9B9"
+              placeholder="Seu email"
+              autoCapitalize="none"
+              onChangeText={(text) => setEmail(text)}
+            ></TextInput>
+
+            <MaterialIcons
+              name="email"
+              size={20}
+              color="#FFFFFF"
+              style={globalStyles.iconInput1}
+            />
+          </View>
+
           <Text style={globalStyles.label}>Senha *</Text>
-          <TextInput
-            value={password}
-            secureTextEntry={true}
-            style={globalStyles.input}
-            placeholderTextColor="#B9B9B9"
-            placeholder="************"
-            autoCapitalize="none"
-            onChangeText={(text) => setPassword(text)}
-          ></TextInput>
+          <View>
+            <TextInput
+              value={password}
+              secureTextEntry={true}
+              style={globalStyles.input}
+              placeholderTextColor="#B9B9B9"
+              placeholder="************"
+              autoCapitalize="none"
+              onChangeText={(text) => setPassword(text)}
+            ></TextInput>
+
+            <FontAwesome
+              name="lock"
+              size={22}
+              color="#FFFFFF"
+              style={globalStyles.iconInput2}
+            />
+          </View>
 
           {loading ? (
             <ActivityIndicator size="large" color="#ffff" />

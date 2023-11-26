@@ -14,6 +14,19 @@ const globalStyles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 62,
   },
+
+  iconInput1: {
+    position: "absolute",
+    right: 17,
+    top: 18,
+  },
+
+  iconInput2: {
+    position: "absolute",
+    right: 20,
+    top: 18,
+  },
+
   textContainer: {
     alignItems: "center",
     marginBottom: 42,

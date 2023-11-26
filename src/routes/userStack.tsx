@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // Icons
 import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Screens
 import { Home } from "../screens/Home";
@@ -46,7 +47,7 @@ export default function UserStack() {
           component={Profile}
           options={{
             tabBarIcon: ({ size, color }) => (
-              <Feather name="user" size={size} color={color} />
+              <MaterialIcons name="settings" size={size} color={color} />
             ),
           }}
         />
