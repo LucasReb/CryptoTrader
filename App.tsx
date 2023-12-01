@@ -7,6 +7,7 @@ import Toast from "react-native-toast-message";
 // Fonts
 import {
   useFonts,
+  SourceSansPro_900Black,
   SourceSansPro_400Regular,
   SourceSansPro_600SemiBold,
   SourceSansPro_700Bold,
@@ -17,6 +18,7 @@ export default function App() {
     SourceSansPro_400Regular,
     SourceSansPro_600SemiBold,
     SourceSansPro_700Bold,
+    SourceSansPro_900Black,
   });
 
   if (!fontLoaded) {

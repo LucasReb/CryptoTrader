@@ -5,6 +5,7 @@ const globalStyles = StyleSheet.create({
     color: "white",
     fontFamily: "SourceSansPro_400Regular",
   },
+
   label: {
     color: "white",
     marginLeft: 8,
@@ -40,16 +41,22 @@ const globalStyles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "SourceSansPro_700Bold",
   },
+  h2: {
+    color: "#FFFF",
+    fontSize: 28,
+    fontFamily: "SourceSansPro_700Bold",
+  },
+  h3: {
+    color: "#FFFF",
+    fontSize: 20,
+    fontFamily: "SourceSansPro_600SemiBold",
+    marginTop: 15,
+  },
   mainButtonText: {
     fontSize: 16,
     fontFamily: "SourceSansPro_600SemiBold",
   },
-  h3: {
-    color: "#FFFF",
-    fontSize: 18,
-    fontFamily: "SourceSansPro_400Regular",
-    marginTop: 15,
-  },
+
   imagem: {
     width: 140,
     height: 140,
@@ -58,8 +65,12 @@ const globalStyles = StyleSheet.create({
     color: "#FFCC00",
   },
   container: {
-    marginHorizontal: 10,
+    marginHorizontal: 12,
     marginVertical: 90,
+    flex: 1,
+  },
+  container1: {
+    marginHorizontal: 12,
     flex: 1,
   },
   input: {
@@ -70,15 +81,16 @@ const globalStyles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#363636",
     color: "#B9B9B9",
-
     borderRadius: 100,
     paddingLeft: 15,
     marginBottom: 16,
   },
+
   centerContainer: {
     flexDirection: "row",
     justifyContent: "center",
   },
+  
   mainButton: {
     backgroundColor: "#FFCC00",
     height: 48,
