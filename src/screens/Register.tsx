@@ -69,7 +69,11 @@ export function Register({ navigation }) {
             });
           })
           .catch((error) => {
-            console.log("ERROR", error);
+            Toast.show({
+              type: "error",
+              text1: "Erro!",
+              text2: "As senhas não coincidem!" + error,
+            });
           });
       } else {
         if (!validateEmail(email)) {

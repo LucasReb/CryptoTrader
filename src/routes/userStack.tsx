@@ -69,7 +69,7 @@ export default function UserStack() {
           listeners={({ navigation, route }) => ({
             tabPress: (e) => {
               Animated.spring(tabOffsetValue, {
-                toValue: 137,
+                toValue: 130,
                 useNativeDriver: true,
               }).start();
             },
@@ -86,7 +86,7 @@ export default function UserStack() {
           listeners={({ navigation, route }) => ({
             tabPress: (e) => {
               Animated.spring(tabOffsetValue, {
-                toValue: 274,
+                toValue: 262,
                 useNativeDriver: true,
               }).start();
             },
@@ -101,7 +101,7 @@ export default function UserStack() {
           backgroundColor: "#ffcc00",
           position: "absolute",
           bottom: 11,
-          left: 53,
+          left: 50,
           transform: [{ translateX: tabOffsetValue }],
         }}
       ></Animated.View>

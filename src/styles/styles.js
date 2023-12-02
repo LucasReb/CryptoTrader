@@ -18,8 +18,49 @@ const globalStyles = StyleSheet.create({
 
   exitBtn: {
     position: "absolute",
-    right: 22,
-    top: 58,
+    right: 10,
+    top: 36,
+  },
+
+  profileFormChild: {
+    flexDirection: "row",
+  },
+
+  profileFormHolder: {
+    top: 300,
+    width: "100%",
+    position: "absolute",
+  },
+
+  hr: {
+    height: 1,
+    width: "100%",
+    marginTop: 22,
+    marginBottom: 22,
+    backgroundColor: "#282828",
+  },
+
+  profileHolder: {
+    alignItems: "center",
+    top: 210,
+    position: "relative",
+  },
+
+  profilePic: {
+    height: 102,
+    width: 102,
+    borderRadius: 100,
+    position: "absolute",
+    top: 80,
+  },
+
+  crown: {
+    height: 38,
+    width: 42,
+    borderRadius: 100,
+    position: "absolute",
+    top: 150,
+    right: 132,
   },
 
   iconInput1: {
@@ -38,10 +79,36 @@ const globalStyles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 28,
   },
+
   formContainer: {
     marginTop: 0,
     marginBottom: 0,
   },
+
+  profileText1: {
+    color: "#FFFF",
+    fontSize: 22,
+    fontFamily: "SourceSansPro_700Bold",
+  },
+  profileText2: {
+    color: "#FFFF",
+    fontSize: 18,
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+
+  formText: {
+    color: "#FFFF",
+    fontSize: 18,
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+
+  formText1: {
+    color: "#FFFF",
+    fontSize: 18,
+    fontFamily: "SourceSansPro_600SemiBold",
+    marginLeft: 54,
+  },
+
   h1: {
     color: "#FFFF",
     fontSize: 36,
@@ -95,6 +162,14 @@ const globalStyles = StyleSheet.create({
   centerContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    position: "relative",
+  },
+
+  centerVerticalContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    position: "relative",
   },
 
   mainButton: {

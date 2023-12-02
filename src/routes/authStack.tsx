@@ -14,7 +14,7 @@ export default function AuthStack() {
       <Stack.Navigator
         screenOptions={{
           contentStyle: {
-            backgroundColor: "#161616",
+            backgroundColor: "black",
           },
         }}
       >

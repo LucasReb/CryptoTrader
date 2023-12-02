@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  User,
+  initializeAuth,
+  getReactNativePersistence,
+} from "firebase/auth";
+
 import { initializeApp } from "firebase/app";
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDqhIfH91fNrec7j0Mx-P92zhwa8qFmmek",
@@ -14,6 +22,12 @@ const firebaseConfig = {
 
 // Inicializando Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
+
+// Inicializa persistencia de login
+initializeAuth(FIREBASE_APP, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+
 export const FIREBASE_DB = getAuth(FIREBASE_APP);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 
