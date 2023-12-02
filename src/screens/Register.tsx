@@ -12,7 +12,11 @@ import {
 
 import { FIREBASE_AUTH } from "../hooks/useAuth";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 
 import globalStyles from "../styles/styles";
 
@@ -23,6 +27,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 export function Register({ navigation }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -49,17 +54,23 @@ export function Register({ navigation }) {
 
     try {
       if (password == confirmPassword && validateEmail(email)) {
-        const response = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((res) => {
+            Toast.show({
+              type: "success",
+              text1: "Sucesso!",
+              text2: "Usuário cadastrado com sucesso!",
+            });
 
-        Toast.show({
-          type: "success",
-          text1: "Sucesso!",
-          text2: "Usuário cadastrado com sucesso!",
-        });
+            const user = res.user;
+
+            updateProfile(user, {
+              displayName: name,
+            });
+          })
+          .catch((error) => {
+            console.log("ERROR", error);
+          });
       } else {
         if (!validateEmail(email)) {
           Toast.show({
@@ -107,6 +118,24 @@ export function Register({ navigation }) {
 
       <KeyboardAvoidingView behavior="padding">
         <View style={globalStyles.formContainer}>
+          <Text style={globalStyles.label}>Nome *</Text>
+          <View>
+            <TextInput
+              value={name}
+              style={globalStyles.input}
+              placeholderTextColor="#B9B9B9"
+              placeholder="Seu nome"
+              autoCapitalize="words"
+              onChangeText={(text) => setName(text)}
+            />
+            <FontAwesome
+              name="user"
+              size={20}
+              color="#FFFFFF"
+              style={globalStyles.iconInput1}
+            />
+          </View>
+
           <Text style={globalStyles.label}>Email *</Text>
           <View>
             <TextInput

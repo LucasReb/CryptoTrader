@@ -13,7 +13,13 @@ const globalStyles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 62,
+    marginBottom: 28,
+  },
+
+  exitBtn: {
+    position: "absolute",
+    right: 22,
+    top: 58,
   },
 
   iconInput1: {
@@ -30,7 +36,7 @@ const globalStyles = StyleSheet.create({
 
   textContainer: {
     alignItems: "center",
-    marginBottom: 42,
+    marginBottom: 28,
   },
   formContainer: {
     marginTop: 0,
@@ -90,7 +96,7 @@ const globalStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  
+
   mainButton: {
     backgroundColor: "#FFCC00",
     height: 48,
