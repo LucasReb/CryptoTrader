@@ -3,6 +3,8 @@ import { View, Text } from "react-native";
 import globalStyles from "../styles/styles";
 
 export function Home() {
+  console.log("A");
+
   return (
     <View
       style={{
