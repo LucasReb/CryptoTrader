@@ -112,13 +112,13 @@ export function Login({ navigation }) {
           </View>
 
           {loading ? (
-            <ActivityIndicator size="large" color="#ffff" />
+            <View style={globalStyles.mainButton}>
+              <ActivityIndicator size="large" color="#ffff" />
+            </View>
           ) : (
-            <>
-              <Pressable style={globalStyles.mainButton} onPress={signIn}>
-                <Text style={globalStyles.mainButtonText}>Login</Text>
-              </Pressable>
-            </>
+            <Pressable style={globalStyles.mainButton} onPress={signIn}>
+              <Text style={globalStyles.mainButtonText}>Login</Text>
+            </Pressable>
           )}
 
           <View style={globalStyles.centerContainer}>

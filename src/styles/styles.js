@@ -125,6 +125,14 @@ const globalStyles = StyleSheet.create({
     fontFamily: "SourceSansPro_600SemiBold",
     marginTop: 15,
   },
+  
+  p: {
+    color: "#FFFF",
+    fontSize: 16,
+    fontFamily: "SourceSansPro_400Regular",
+    marginTop: 15,
+  },
+
   mainButtonText: {
     fontSize: 16,
     fontFamily: "SourceSansPro_600SemiBold",
@@ -152,7 +160,7 @@ const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     padding: 10,
-    backgroundColor: "#363636",
+    backgroundColor: "#282828",
     color: "#B9B9B9",
     borderRadius: 100,
     paddingLeft: 15,

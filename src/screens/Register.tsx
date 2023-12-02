@@ -10,13 +10,15 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
-import { FIREBASE_AUTH } from "../hooks/useAuth";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../hooks/useAuth";
 
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 import globalStyles from "../styles/styles";
 
@@ -63,6 +65,10 @@ export function Register({ navigation }) {
             });
 
             const user = res.user;
+
+            const userId = user.uid;
+            const userDocRef = doc(getFirestore(FIREBASE_APP), "users", userId);
+            setDoc(userDocRef, { carteira: 21000 }, { merge: true });
 
             updateProfile(user, {
               displayName: name,

@@ -10,6 +10,8 @@ import {
 import { initializeApp } from "firebase/app";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDqhIfH91fNrec7j0Mx-P92zhwa8qFmmek",
   authDomain: "cryptotrader-bef0c.firebaseapp.com",
@@ -28,7 +30,7 @@ initializeAuth(FIREBASE_APP, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export const FIREBASE_DB = getAuth(FIREBASE_APP);
+export const FIREBASE_DB = getFirestore(FIREBASE_APP);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 
 const auth = getAuth();
