@@ -65,10 +65,7 @@ export function Register({ navigation }) {
             });
 
             const user = res.user;
-
             const userId = user.uid;
-            const userDocRef = doc(getFirestore(FIREBASE_APP), "users", userId);
-            setDoc(userDocRef, { carteira: 21000 }, { merge: true });
 
             updateProfile(user, {
               displayName: name,

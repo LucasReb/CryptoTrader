@@ -1,6 +1,15 @@
 import { StyleSheet } from "react-native";
 
 const globalStyles = StyleSheet.create({
+  cryptoBox: {
+    backgroundColor: "#282828",
+    flexDirection: "row",
+    marginTop: 20,
+    height: 75,
+    justifyContent: "space-between",
+    paddingRight: 24
+  },
+
   text: {
     color: "white",
     fontFamily: "SourceSansPro_400Regular",
@@ -119,13 +128,27 @@ const globalStyles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "SourceSansPro_700Bold",
   },
+
   h3: {
     color: "#FFFF",
     fontSize: 20,
     fontFamily: "SourceSansPro_600SemiBold",
     marginTop: 15,
   },
-  
+
+  cryptoBoxH3: {
+    color: "#FFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+
+  cryptoBoxp: {
+    color: "#FFFF",
+    fontSize: 16,
+    fontFamily: "SourceSansPro_400Regular",
+  },
+
   p: {
     color: "#FFFF",
     fontSize: 16,
