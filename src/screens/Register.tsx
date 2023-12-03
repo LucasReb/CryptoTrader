@@ -52,50 +52,36 @@ export function Register({ navigation }) {
     setLoading(true);
 
     try {
-      if (password === confirmPassword && validateEmail(email)) {
-        const res = await createUserWithEmailAndPassword(auth, email, password);
-        const user = res.user;
-        const userId = user.uid;
-
-        await updateProfile(user, {
-          displayName: name,
-        });
-
-        // Create information for AsyncStorage
-        const userData = {
-          SALDO_CARTEIRA: 22000.0,
-          SALDO_INVESTIMENTO: 0.0,
-          QUANTIDADE_ETHEREUM: 0,
-          QUANTIDADE_BITCOIN: 0,
-        };
-
-        await AsyncStorage.setItem(userId, JSON.stringify(userData));
-
-        Toast.show({
-          type: "success",
-          text1: "Sucesso!",
-          text2: "Usuário cadastrado com sucesso!",
-        });
-      } else {
-        if (!validateEmail(email)) {
-          Toast.show({
-            type: "error",
-            text1: "Erro!",
-            text2: "Email inserido é inválido!",
-          });
-        } else {
-          Toast.show({
-            type: "error",
-            text1: "Erro!",
-            text2: "As senhas não coincidem!",
-          });
-        }
+      if (password !== confirmPassword || !validateEmail(email)) {
+        throw new Error("Email inválido ou senhas não coincidem.");
       }
+
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await updateProfile(user, { displayName: name });
+
+      const userData = {
+        SALDO_CARTEIRA: 23000.0,
+        SALDO_INVESTIMENTO: 0.0,
+        QUANTIDADE_ETHEREUM: 0,
+        QUANTIDADE_BITCOIN: 0,
+      };
+
+      await AsyncStorage.setItem(user.uid, JSON.stringify(userData));
+
+      Toast.show({
+        type: "success",
+        text1: "Sucesso!",
+        text2: "Usuário cadastrado com sucesso!",
+      });
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "Erro!",
-        text2: "Falha no cadastro" + error.message,
+        text2: `Falha no cadastro: ${error.message}`,
       });
     } finally {
       setLoading(false);
@@ -199,7 +185,7 @@ export function Register({ navigation }) {
           </View>
 
           {loading ? (
-            <ActivityIndicator size="large" color="#ffff" />
+            <ActivityIndicator size="large" color="black" />
           ) : (
             <>
               <Pressable style={globalStyles.mainButton} onPress={signUp}>

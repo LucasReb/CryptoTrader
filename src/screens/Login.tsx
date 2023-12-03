@@ -113,7 +113,7 @@ export function Login({ navigation }) {
 
           {loading ? (
             <View style={globalStyles.mainButton}>
-              <ActivityIndicator size="large" color="#ffff" />
+              <ActivityIndicator size="large" color="black" />
             </View>
           ) : (
             <Pressable style={globalStyles.mainButton} onPress={signIn}>

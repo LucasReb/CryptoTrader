@@ -19,6 +19,7 @@ const globalStyles = StyleSheet.create({
     color: "white",
     marginLeft: 8,
     fontFamily: "SourceSansPro_700Bold",
+    marginBottom: 3
   },
   logoContainer: {
     alignItems: "center",

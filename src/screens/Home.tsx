@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import globalStyles from "../styles/styles";
 
 import { Entypo } from "@expo/vector-icons";
@@ -16,24 +22,33 @@ export function Home() {
   const [bitcoin, setBitcoin] = useState(null);
   const [ethereum, setEthereum] = useState(null);
   const [tether, setTether] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [selectedSection, setSelectedSection] = useState("carteiraScreen");
 
-  const user = FIREBASE_AUTH.currentUser;
-  const userId = user.uid;
-
-  const getUserData = async (userId) => {
+  async function getUserData(userId) {
     try {
-      const userDataString = await AsyncStorage.getItem(userId);
+      userDataString = null;
+      while (userDataString == null) {
+        var userDataString = await AsyncStorage.getItem(userId);
+      }
+
+      console.log("userDataString", userDataString);
 
       if (userDataString) {
-        return JSON.parse(userDataString);
+        const userData = JSON.parse(userDataString);
+        return userData;
+      } else {
+        console.warn(`Nenhum dado encontrado para o usuário com ID ${userId}`);
       }
     } catch (error) {
-      console.error("Error retrieving user data:", error);
+      console.error(
+        `Erro ao recuperar os dados do usuário com ID ${userId}:`,
+        error
+      );
     }
-    return null;
-  };
+  }
 
   async function getPrices() {
     try {
@@ -62,21 +77,52 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getUserData(userId);
-        setUserData(userData);
-      } catch (error) {
-        console.error("ERRO NO LOCAL STORAGE:", error);
-      }
-    };
+  async function fetchData() {
+    try {
+      setLoading(true);
 
+      const user = FIREBASE_AUTH.currentUser;
+
+      console.log("TA LOGADOOO", user);
+
+      if (user) {
+        const userId = user.uid.toString();
+
+        const userData = await getUserData(userId);
+
+        if (userData) {
+          console.log("Dados do usuário recuperados:", userData);
+          setUserData(userData);
+        } else {
+          console.warn("Nenhum dado de usuário encontrado ou ocorreu um erro.");
+        }
+      } else {
+        console.warn("Usuário não autenticado.");
+      }
+    } catch (error) {
+      console.error("Erro em fetchData:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     fetchData();
     getPrices();
-  }, []);
+  }, [userId]);
 
   const renderContent = () => {
+    if (loading) {
+      // Mostre um indicador de carregamento ou algum feedback enquanto os dados estão sendo recuperados
+      return (
+        <ActivityIndicator
+          size="large"
+          color="#ffffff"
+          style={{ marginTop: 15 }}
+        />
+      );
+    }
+
     if (selectedSection === "carteiraScreen") {
       return (
         <View>
@@ -89,7 +135,6 @@ export function Home() {
                 fontFamily: "SourceSansPro_700Bold",
               }}
             >
-              R$
               {userData.SALDO_CARTEIRA.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
@@ -261,21 +306,25 @@ export function Home() {
       return (
         <View>
           <Text style={globalStyles.p}>Valor investido</Text>
-          <Text
-            style={{
-              color: "#FFFF",
-              fontSize: 38,
-              fontFamily: "SourceSansPro_700Bold",
-            }}
-          >
-            {userData.SALDO_INVESTIMENTO.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}{" "}
-          </Text>
-          {userData.QUANTIDADE_BITCOIN > 0 &&
+          {userData && (
+            <Text
+              style={{
+                color: "#FFFF",
+                fontSize: 38,
+                fontFamily: "SourceSansPro_700Bold",
+              }}
+            >
+              {userData.SALDO_INVESTIMENTO.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
+          )}
+
+          {userData &&
+            userData.QUANTIDADE_BITCOIN > 0 &&
             userData.QUANTIDADE_ETHEREUM > 0 && (
               <Text
                 style={{
