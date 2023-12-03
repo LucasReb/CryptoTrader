@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   View,
   Text,
@@ -10,15 +11,11 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
-import { FIREBASE_APP, FIREBASE_AUTH } from "../hooks/useAuth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
+import { FIREBASE_AUTH } from "../hooks/useAuth";
 
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import globalStyles from "../styles/styles";
 
@@ -55,29 +52,30 @@ export function Register({ navigation }) {
     setLoading(true);
 
     try {
-      if (password == confirmPassword && validateEmail(email)) {
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((res) => {
-            Toast.show({
-              type: "success",
-              text1: "Sucesso!",
-              text2: "Usuário cadastrado com sucesso!",
-            });
+      if (password === confirmPassword && validateEmail(email)) {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
+        const userId = user.uid;
 
-            const user = res.user;
-            const userId = user.uid;
+        await updateProfile(user, {
+          displayName: name,
+        });
 
-            updateProfile(user, {
-              displayName: name,
-            });
-          })
-          .catch((error) => {
-            Toast.show({
-              type: "error",
-              text1: "Erro!",
-              text2: "As senhas não coincidem!" + error,
-            });
-          });
+        // Create information for AsyncStorage
+        const userData = {
+          SALDO_CARTEIRA: 22000.0,
+          SALDO_INVESTIMENTO: 0.0,
+          QUANTIDADE_ETHEREUM: 0,
+          QUANTIDADE_BITCOIN: 0,
+        };
+
+        await AsyncStorage.setItem(userId, JSON.stringify(userData));
+
+        Toast.show({
+          type: "success",
+          text1: "Sucesso!",
+          text2: "Usuário cadastrado com sucesso!",
+        });
       } else {
         if (!validateEmail(email)) {
           Toast.show({
@@ -86,16 +84,14 @@ export function Register({ navigation }) {
             text2: "Email inserido é inválido!",
           });
         } else {
-          if (password != confirmPassword) {
-            Toast.show({
-              type: "error",
-              text1: "Erro!",
-              text2: "As senhas não coincidem!",
-            });
-          }
+          Toast.show({
+            type: "error",
+            text1: "Erro!",
+            text2: "As senhas não coincidem!",
+          });
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       Toast.show({
         type: "error",
         text1: "Erro!",

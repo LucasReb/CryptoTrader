@@ -11,12 +11,6 @@ export function Profile() {
   const auth = FIREBASE_AUTH;
   const user = auth.currentUser;
 
-  if (user) {
-    console.log("Usuário logado", user);
-  } else {
-    console.log("Usuário não logado");
-  }
-
   function formatCreationDate(creationTime) {
     const dateObject = new Date(creationTime);
     const day = String(dateObject.getDate()).padStart(2, "0");

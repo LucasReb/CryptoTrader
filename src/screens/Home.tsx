@@ -8,12 +8,32 @@ import { Entypo } from "@expo/vector-icons";
 import api from "../services/apiService";
 
 import { FontAwesome5 } from "@expo/vector-icons";
+import { FIREBASE_AUTH } from "../hooks/useAuth";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Home() {
   const [bitcoin, setBitcoin] = useState(null);
   const [ethereum, setEthereum] = useState(null);
   const [tether, setTether] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [selectedSection, setSelectedSection] = useState("carteiraScreen");
+
+  const user = FIREBASE_AUTH.currentUser;
+  const userId = user.uid;
+
+  const getUserData = async (userId) => {
+    try {
+      const userDataString = await AsyncStorage.getItem(userId);
+
+      if (userDataString) {
+        return JSON.parse(userDataString);
+      }
+    } catch (error) {
+      console.error("Error retrieving user data:", error);
+    }
+    return null;
+  };
 
   async function getPrices() {
     try {
@@ -33,9 +53,9 @@ export function Home() {
         setEthereum(ethereumData);
         setTether(tetherData);
 
-        console.log("First Cryptocurrency Name:", bitcoinData);
-        console.log("Second Cryptocurrency Name:", ethereumData);
-        console.log("Second Cryptocurrency Name:", tetherData);
+        //console.log("First Cryptocurrency Name:", bitcoinData);
+        //console.log("Second Cryptocurrency Name:", ethereumData);
+        //console.log("Second Cryptocurrency Name:", tetherData);
       }
     } catch (error) {
       console.log("ERRO NO CONSUMO DE API!", error);
@@ -43,6 +63,16 @@ export function Home() {
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await getUserData(userId);
+        setUserData(userData);
+      } catch (error) {
+        console.error("ERRO NO LOCAL STORAGE:", error);
+      }
+    };
+
+    fetchData();
     getPrices();
   }, []);
 
@@ -51,15 +81,23 @@ export function Home() {
       return (
         <View>
           <Text style={globalStyles.p}>Saldo na carteira</Text>
-          <Text
-            style={{
-              color: "#FFFF",
-              fontSize: 38,
-              fontFamily: "SourceSansPro_700Bold",
-            }}
-          >
-            R$20.000,00
-          </Text>
+          {userData && (
+            <Text
+              style={{
+                color: "#FFFF",
+                fontSize: 38,
+                fontFamily: "SourceSansPro_700Bold",
+              }}
+            >
+              R$
+              {userData.SALDO_CARTEIRA.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
+          )}
           <Text
             style={{
               marginTop: 20,
@@ -230,18 +268,26 @@ export function Home() {
               fontFamily: "SourceSansPro_700Bold",
             }}
           >
-            R$20.000,00
+            {userData.SALDO_INVESTIMENTO.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
           </Text>
-          <Text
-            style={{
-              marginTop: 20,
-              color: "#FFFF",
-              fontSize: 20,
-              fontFamily: "SourceSansPro_700Bold",
-            }}
-          >
-            Trending crypto
-          </Text>
+          {userData.QUANTIDADE_BITCOIN > 0 &&
+            userData.QUANTIDADE_ETHEREUM > 0 && (
+              <Text
+                style={{
+                  marginTop: 20,
+                  color: "#FFFF",
+                  fontSize: 20,
+                  fontFamily: "SourceSansPro_700Bold",
+                }}
+              >
+                Meus ativos
+              </Text>
+            )}
         </View>
       );
     }
