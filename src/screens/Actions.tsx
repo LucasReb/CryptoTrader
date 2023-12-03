@@ -15,6 +15,7 @@ import {
 import globalStyles from "../styles/styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 // API
 import api from "../services/apiService";
@@ -25,7 +26,10 @@ import { FIREBASE_AUTH } from "../hooks/useAuth";
 // Storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function Actions() {
+import OrderComponent from "../components/orderComponent";
+
+export function Actions({ navigation }) {
+  const [showOrders, setShowOrders] = useState(false);
   const [bitcoin, setBitcoin] = useState(null);
   const [ethereum, setEthereum] = useState(null);
   const [tether, setTether] = useState(null);
@@ -166,29 +170,68 @@ export function Actions() {
     atualizarSaldoCarteira(24500.0);
   };
 
+  const handleOrderButtonClick = () => {
+    setShowOrders(true);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "black", paddingBottom: 0 }}>
       <View style={globalStyles.container1}>
-        <Text style={globalStyles.p}>Saldo na carteira</Text>
-        {userData && (
+        <View
+          style={{
+            backgroundColor: "#FFCC00",
+            marginTop: 60,
+            height: 180,
+            position: "relative",
+            borderRadius: 24,
+          }}
+        >
           <Text
             style={{
-              color: "#FFFF",
-              fontSize: 38,
-              fontFamily: "SourceSansPro_700Bold",
+              color: "black",
+              position: "absolute",
+              left: 16,
+              top: 22,
+              fontSize: 25,
+              fontFamily: "SourceSansPro_400Regular",
             }}
           >
-            {userData.SALDO_CARTEIRA.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            Saldo na carteira
           </Text>
-        )}
+          {userData && (
+            <Text
+              style={{
+                color: "black",
+                fontSize: 38,
+                fontFamily: "SourceSansPro_400Regular",
+                position: "absolute",
+                right: 12,
+                bottom: 12,
+              }}
+            >
+              Total:{" "}
+              {userData.SALDO_CARTEIRA.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </Text>
+          )}
+        </View>
+        <Text
+          style={{
+            marginTop: 22,
+            fontSize: 24,
+            color: "white",
+            alignItems: "center",
+            fontFamily: "SourceSansPro_600SemiBold",
+          }}
+        >
+          Transações
+        </Text>
 
-        {/* Botão para alterar o saldo da carteira */}
-        <Pressable
+        {/* <Pressable
           style={{
             marginTop: 20,
             padding: 15,
@@ -207,7 +250,31 @@ export function Actions() {
           >
             Alterar Saldo
           </Text>
-        </Pressable>
+        </Pressable> */}
+        <TouchableOpacity
+          onPress={handleOrderButtonClick}
+          style={{
+            marginTop: 20,
+            padding: 15,
+            backgroundColor: "#FFCC00",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 48,
+            height: 48,
+            borderRadius: 100,
+            position: "absolute",
+            right: 8,
+            bottom: 16,
+          }}
+        >
+          <AntDesign name="plus" size={18} color="black" />
+        </TouchableOpacity>
+        {showOrders && (
+          <OrderComponent
+            onClose={() => setShowOrders(false)}
+            saldoCarteira={userData.SALDO_CARTEIRA}
+          />
+        )}
       </View>
     </View>
   );
