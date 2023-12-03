@@ -7,7 +7,7 @@ const globalStyles = StyleSheet.create({
     marginTop: 20,
     height: 75,
     justifyContent: "space-between",
-    paddingRight: 24
+    paddingRight: 24,
   },
 
   text: {
@@ -15,11 +15,23 @@ const globalStyles = StyleSheet.create({
     fontFamily: "SourceSansPro_400Regular",
   },
 
+  text1: {
+    color: "white",
+    fontSize: 16,
+    fontFamily: "SourceSansPro_400Regular",
+  },
+
+  yellowText: {
+    fontSize: 16,
+    color: "#FFCC00",
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+
   label: {
     color: "white",
     marginLeft: 8,
     fontFamily: "SourceSansPro_700Bold",
-    marginBottom: 3
+    marginBottom: 3,
   },
   logoContainer: {
     alignItems: "center",
@@ -112,6 +124,14 @@ const globalStyles = StyleSheet.create({
     fontFamily: "SourceSansPro_600SemiBold",
   },
 
+  formText2: {
+    color: "#FFFF",
+    fontSize: 18,
+    fontFamily: "SourceSansPro_600SemiBold",
+    marginTop: 20,
+    marginBottom: 3,
+  },
+
   formText1: {
     color: "#FFFF",
     fontSize: 18,
@@ -166,9 +186,7 @@ const globalStyles = StyleSheet.create({
     width: 140,
     height: 140,
   },
-  yellowText: {
-    color: "#FFCC00",
-  },
+
   container: {
     marginHorizontal: 12,
     marginVertical: 90,
@@ -185,7 +203,7 @@ const globalStyles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: "#282828",
-    color: "#B9B9B9",
+    color: "#dddddd",
     borderRadius: 100,
     paddingLeft: 15,
     marginBottom: 16,
