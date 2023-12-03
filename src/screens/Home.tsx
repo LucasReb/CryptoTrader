@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+// React components
+import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 import {
   View,
@@ -7,15 +9,19 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import globalStyles from "../styles/styles";
 
+// Style
+import globalStyles from "../styles/styles";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
+// API
 import api from "../services/apiService";
 
-import { FontAwesome5 } from "@expo/vector-icons";
+// AUTH
 import { FIREBASE_AUTH } from "../hooks/useAuth";
 
+// Storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Home() {
@@ -66,9 +72,18 @@ export function Home() {
         setEthereum(ethereumData);
         setTether(tetherData);
 
-        //console.log("First Cryptocurrency Name:", bitcoinData);
-        //console.log("Second Cryptocurrency Name:", ethereumData);
-        //console.log("Second Cryptocurrency Name:", tetherData);
+        console.log(
+          "First Cryptocurrency Name:",
+          bitcoinData.price_change_percentage_24h
+        );
+        console.log(
+          "Second Cryptocurrency Name:",
+          ethereumData.price_change_percentage_24h
+        );
+        console.log(
+          "Second Cryptocurrency Name:",
+          tetherData.price_change_percentage_24h
+        );
       }
     } catch (error) {
       console.log("ERRO NO CONSUMO DE API!", error);
@@ -102,10 +117,13 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    fetchData();
-    getPrices();
-  }, [userId]);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Coloque aqui o código que você deseja executar quando a tela receber foco
+      fetchData();
+      getPrices();
+    }, [])
+  );
 
   const renderContent = () => {
     if (loading) {
