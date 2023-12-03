@@ -34,8 +34,6 @@ export function Home() {
         var userDataString = await AsyncStorage.getItem(userId);
       }
 
-      console.log("userDataString", userDataString);
-
       if (userDataString) {
         const userData = JSON.parse(userDataString);
         return userData;
@@ -82,8 +80,6 @@ export function Home() {
       setLoading(true);
 
       const user = FIREBASE_AUTH.currentUser;
-
-      console.log("TA LOGADOOO", user);
 
       if (user) {
         const userId = user.uid.toString();
