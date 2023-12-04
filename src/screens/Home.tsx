@@ -318,20 +318,66 @@ export function Home() {
         <View>
           <Text style={globalStyles.p}>Valor investido</Text>
           {userData && (
-            <Text
-              style={{
-                color: "#FFFF",
-                fontSize: 38,
-                fontFamily: "SourceSansPro_700Bold",
-              }}
-            >
-              {userData.SALDO_INVESTIMENTO.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </Text>
+            <View>
+              <Text
+                style={{
+                  color: "#FFFF",
+                  fontSize: 38,
+                  fontFamily: "SourceSansPro_700Bold",
+                }}
+              >
+                {(
+                  userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
+                  userData.QUANTIDADE_ETHEREUM * ethereum.current_price * 4.93
+                ).toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </Text>
+              <Text
+                style={{
+                  position: "absolute",
+                  color:
+                    ((userData.QUANTIDADE_BITCOIN *
+                      bitcoin.current_price *
+                      4.93 +
+                      userData.QUANTIDADE_ETHEREUM *
+                        bitcoin.current_price *
+                        4.93 -
+                      userData.SALDO_INVESTIMENTO) /
+                      userData.SALDO_INVESTIMENTO) *
+                      100 <
+                    0
+                      ? "#fb3b30"
+                      : "#4cd964",
+                  left: 210,
+                  top: 16,
+                  fontSize: 18,
+                  fontWeight: "bold"
+                }}
+              >
+                {((userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
+                  userData.QUANTIDADE_ETHEREUM * bitcoin.current_price * 4.93 -
+                  userData.SALDO_INVESTIMENTO) /
+                  userData.SALDO_INVESTIMENTO) *
+                  100 >
+                0
+                  ? "+"
+                  : " "}
+                {(
+                  ((userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
+                    userData.QUANTIDADE_ETHEREUM *
+                      bitcoin.current_price *
+                      4.93 -
+                    userData.SALDO_INVESTIMENTO) /
+                    userData.SALDO_INVESTIMENTO) *
+                  100
+                ).toFixed(2)}
+                %
+              </Text>
+            </View>
           )}
 
           {userData && userData.QUANTIDADE_BITCOIN > 0 && (
@@ -403,7 +449,7 @@ export function Home() {
               </View>
             </View>
           )}
-          
+
           {userData && userData.QUANTIDADE_ETHEREUM > 0 && (
             <View>
               <View style={globalStyles.cryptoBox}>
