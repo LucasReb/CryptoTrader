@@ -334,7 +334,7 @@ export function Home() {
             </Text>
           )}
 
-          {userData && (
+          {userData && userData.QUANTIDADE_BITCOIN > 0 && (
             <View>
               <Text
                 style={{
@@ -366,7 +366,7 @@ export function Home() {
                   <View>
                     <Text style={globalStyles.cryptoBoxH3}>Bitcoin</Text>
                     <Text style={globalStyles.cryptoBoxp}>
-                      Quantidade: {userData.QUANTIDADE_BITCOIN}
+                      Quantidade: {userData.QUANTIDADE_BITCOIN.toFixed(5)}
                     </Text>
                   </View>
                 </View>
@@ -384,7 +384,7 @@ export function Home() {
                       fontFamily: "SourceSansPro_700Bold",
                       color:
                         tether.price_change_percentage_24h < 0
-                          ? "#fb3b30"
+                          ? "#4cd964"
                           : "#4cd964",
                     }}
                   >
@@ -401,6 +401,11 @@ export function Home() {
                   </Text>
                 </View>
               </View>
+            </View>
+          )}
+          
+          {userData && userData.QUANTIDADE_ETHEREUM > 0 && (
+            <View>
               <View style={globalStyles.cryptoBox}>
                 <View
                   style={{
@@ -421,7 +426,7 @@ export function Home() {
                   <View>
                     <Text style={globalStyles.cryptoBoxH3}>Ethereum</Text>
                     <Text style={globalStyles.cryptoBoxp}>
-                      Quantidade: {userData.QUANTIDADE_ETHEREUM}
+                      Quantidade: {userData.QUANTIDADE_ETHEREUM.toFixed(5)}
                     </Text>
                   </View>
                 </View>
@@ -439,7 +444,7 @@ export function Home() {
                       fontFamily: "SourceSansPro_700Bold",
                       color:
                         tether.price_change_percentage_24h < 0
-                          ? "#fb3b30"
+                          ? "#4cd964"
                           : "#4cd964",
                     }}
                   >

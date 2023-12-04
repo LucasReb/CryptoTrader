@@ -76,18 +76,18 @@ export function Actions({ navigation }) {
         setEthereum(ethereumData);
         setTether(tetherData);
 
-        console.log(
-          "First Cryptocurrency Name:",
-          bitcoinData.price_change_percentage_24h
-        );
-        console.log(
-          "Second Cryptocurrency Name:",
-          ethereumData.price_change_percentage_24h
-        );
-        console.log(
-          "Second Cryptocurrency Name:",
-          tetherData.price_change_percentage_24h
-        );
+        // console.log(
+        //   "First Cryptocurrency Name:",
+        //   bitcoinData.price_change_percentage_24h
+        // );
+        // console.log(
+        //   "Second Cryptocurrency Name:",
+        //   ethereumData.price_change_percentage_24h
+        // );
+        // console.log(
+        //   "Second Cryptocurrency Name:",
+        //   tetherData.price_change_percentage_24h
+        // );
       }
     } catch (error) {
       console.log("ERRO NO CONSUMO DE API!", error);
@@ -172,6 +172,13 @@ export function Actions({ navigation }) {
 
   const handleOrderButtonClick = () => {
     setShowOrders(true);
+  };
+
+  const handleCLose = () => {
+    setShowOrders(false);
+
+    fetchData();
+    getPrices();
   };
 
   return (
@@ -272,7 +279,7 @@ export function Actions({ navigation }) {
         </TouchableOpacity>
         {showOrders && (
           <OrderComponent
-            onClose={() => setShowOrders(false)}
+            onClose={() => handleCLose()}
             saldoCarteira={userData.SALDO_CARTEIRA}
             bitcoin={bitcoin}
             ethereum={ethereum}

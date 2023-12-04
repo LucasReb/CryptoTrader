@@ -47,15 +47,16 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
             // Verifica se o saldo da carteira é suficiente para a compra
             if (dadosUsuario.SALDO_CARTEIRA >= valorCompra) {
               // Atualiza a quantidade da moeda
-              quantidadeMoedas += quantidade;
+
+              moeda === "bitcoin"
+                ? (dadosUsuario.QUANTIDADE_BITCOIN += quantidade)
+                : (dadosUsuario.QUANTIDADE_ETHEREUM += quantidade);
 
               // Remove o valor da compra do saldo da carteira
               dadosUsuario.SALDO_CARTEIRA -= valorCompra;
 
               // Adiciona o valor da compra ao saldo de investimento
               dadosUsuario.SALDO_INVESTIMENTO += valorCompra;
-
-              console.log("XXX", dadosUsuario);
             } else {
               Toast.show({
                 type: "error",
@@ -95,8 +96,6 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
           // Salva os dados do usuário atualizados de volta no AsyncStorage
           await AsyncStorage.setItem(userId, JSON.stringify(dadosUsuario));
 
-          console.log();
-
           Toast.show({
             type: "success",
             text1: "Sucesso!",
@@ -116,6 +115,8 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
     } catch (error) {
       console.error("Erro ao executar a ordem:", error);
     }
+
+    onClose();
   }
 
   const CurrencyPicker = ({ selectedCurrency, onValueChange }) => {
@@ -227,7 +228,7 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
       >
         <View style={globalStyles.centerContainer}>
           <Text style={globalStyles.text1}>Saldo na carteira: </Text>
-          <Text style={globalStyles.yellowText}>
+          <Text style={globalStyles.yellowText1}>
             {saldoCarteira.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
@@ -277,7 +278,7 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
         >
           <View style={globalStyles.centerContainer}>
             <Text style={globalStyles.text1}>Saldo na carteira: </Text>
-            <Text style={globalStyles.yellowText}>
+            <Text style={globalStyles.yellowText1}>
               {saldoCarteira.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",

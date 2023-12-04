@@ -15,16 +15,20 @@ const globalStyles = StyleSheet.create({
     fontFamily: "SourceSansPro_400Regular",
   },
 
+  yellowText: {
+    color: "#FFCC00",
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+  yellowText1: {
+    fontSize: 16,
+    color: "#FFCC00",
+    fontFamily: "SourceSansPro_600SemiBold",
+  },
+
   text1: {
     color: "white",
     fontSize: 16,
     fontFamily: "SourceSansPro_400Regular",
-  },
-
-  yellowText: {
-    fontSize: 16,
-    color: "#FFCC00",
-    fontFamily: "SourceSansPro_600SemiBold",
   },
 
   label: {
