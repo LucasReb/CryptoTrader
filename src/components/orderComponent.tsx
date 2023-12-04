@@ -9,11 +9,33 @@ import Toast from "react-native-toast-message";
 
 import { Picker } from "@react-native-picker/picker";
 
+import { Audio } from "expo-av";
+
 const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("bitcoin");
   const [orderType, setOrderType] = useState("compra");
   const [quantity, setQuantity] = useState("");
   const [userData, setUserData] = useState(null);
+  const [sound, setSound] = React.useState(null);
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/sounds/success.mp3")
+    );
+
+    setSound(sound);
+
+    await sound.playAsync();
+  }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   async function executarOrdem(moeda, ordem, valorCompra) {
     try {
@@ -68,15 +90,26 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
           }
           // Lógica para ordem de VENDA
           if (ordem === "venda") {
-            const quantidade = valorCompra * moedaPrice * 4.93;
+            const quantidade = valorCompra / 4.93 / moedaPrice;
+
+            console.log("IOIOIO", quantidade);
+
+            let moedaTYPE =
+              moeda === "bitcoin"
+                ? dadosUsuario.QUANTIDADE_BITCOIN
+                : dadosUsuario.QUANTIDADE_ETHEREUM;
+
+            console.log("Dados usuário", moedaTYPE);
 
             // Verifica se o usuário possui quantidade suficiente da moeda
-            if (dadosUsuario[moeda].quantidade >= quantidade) {
+            if (moedaTYPE >= quantidade) {
               // Calcula o valor total da venda
-              const valorVenda = quantidade * dadosUsuario[moeda].precoAtual;
+              const valorVenda = valorCompra;
 
               // Remove a quantidade vendida da moeda
-              dadosUsuario[moeda].quantidade -= quantidade;
+              moeda === "bitcoin"
+                ? (dadosUsuario.QUANTIDADE_BITCOIN -= quantidade)
+                : (dadosUsuario.QUANTIDADE_ETHEREUM -= quantidade);
 
               // Adiciona o valor da venda ao saldo da carteira
               dadosUsuario.SALDO_CARTEIRA += valorVenda;
@@ -102,6 +135,7 @@ const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
             text2: "Ordem executada com sucesso:!",
           });
 
+          playSound();
           // Atualiza o estado para refletir a mudança no componente
           setUserData(dadosUsuario);
         } else {
