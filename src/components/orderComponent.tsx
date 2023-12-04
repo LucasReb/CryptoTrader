@@ -2,12 +2,121 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import globalStyles from "../styles/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FIREBASE_AUTH } from "../hooks/useAuth";
+
+import Toast from "react-native-toast-message";
+
 import { Picker } from "@react-native-picker/picker";
 
-const OrderComponent = ({ onClose, saldoCarteira }) => {
+const OrderComponent = ({ onClose, saldoCarteira, bitcoin, ethereum }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("bitcoin");
   const [orderType, setOrderType] = useState("compra");
   const [quantity, setQuantity] = useState("");
+  const [userData, setUserData] = useState(null);
+
+  async function executarOrdem(moeda, ordem, valorCompra) {
+    try {
+      const usuario = FIREBASE_AUTH.currentUser;
+      valorCompra = parseFloat(valorCompra);
+
+      if (usuario) {
+        const userId = usuario.uid.toString();
+
+        // Recupera os dados do usuário existentes no AsyncStorage
+        const dadosUsuarioString = await AsyncStorage.getItem(userId);
+
+        if (dadosUsuarioString) {
+          const dadosUsuario = JSON.parse(dadosUsuarioString);
+
+          let quantidadeMoedas =
+            moeda === "bitcoin"
+              ? dadosUsuario.QUANTIDADE_BITCOIN
+              : dadosUsuario.QUANTIDADE_ETHEREUM;
+
+          let moedaPrice =
+            moeda === "bitcoin"
+              ? bitcoin.current_price
+              : ethereum.current_price;
+
+          // Lógica para ordem de COMPRA
+          if (ordem === "compra") {
+            // Calcula a quantidade pelo valor da compra
+            const quantidade = valorCompra / moedaPrice / 4.93;
+
+            // Verifica se o saldo da carteira é suficiente para a compra
+            if (dadosUsuario.SALDO_CARTEIRA >= valorCompra) {
+              // Atualiza a quantidade da moeda
+              quantidadeMoedas += quantidade;
+
+              // Remove o valor da compra do saldo da carteira
+              dadosUsuario.SALDO_CARTEIRA -= valorCompra;
+
+              // Adiciona o valor da compra ao saldo de investimento
+              dadosUsuario.SALDO_INVESTIMENTO += valorCompra;
+
+              console.log("XXX", dadosUsuario);
+            } else {
+              Toast.show({
+                type: "error",
+                text1: "Erro!",
+                text2: `Saldo insuficiente para realizar a compra.`,
+              });
+              return;
+            }
+          }
+          // Lógica para ordem de VENDA
+          if (ordem === "venda") {
+            const quantidade = valorCompra * moedaPrice * 4.93;
+
+            // Verifica se o usuário possui quantidade suficiente da moeda
+            if (dadosUsuario[moeda].quantidade >= quantidade) {
+              // Calcula o valor total da venda
+              const valorVenda = quantidade * dadosUsuario[moeda].precoAtual;
+
+              // Remove a quantidade vendida da moeda
+              dadosUsuario[moeda].quantidade -= quantidade;
+
+              // Adiciona o valor da venda ao saldo da carteira
+              dadosUsuario.SALDO_CARTEIRA += valorVenda;
+
+              // Remove o valor da venda do saldo de investimento
+              dadosUsuario.SALDO_INVESTIMENTO -= valorVenda;
+            } else {
+              Toast.show({
+                type: "error",
+                text1: "Erro!",
+                text2: `Quantidade insuficiente para realizar a venda.`,
+              });
+              return;
+            }
+          }
+
+          // Salva os dados do usuário atualizados de volta no AsyncStorage
+          await AsyncStorage.setItem(userId, JSON.stringify(dadosUsuario));
+
+          console.log();
+
+          Toast.show({
+            type: "success",
+            text1: "Sucesso!",
+            text2: "Ordem executada com sucesso:!",
+          });
+
+          // Atualiza o estado para refletir a mudança no componente
+          setUserData(dadosUsuario);
+        } else {
+          console.warn(
+            `Nenhum dado encontrado para o usuário com ID ${userId}`
+          );
+        }
+      } else {
+        console.warn("Usuário não autenticado.");
+      }
+    } catch (error) {
+      console.error("Erro ao executar a ordem:", error);
+    }
+  }
 
   const CurrencyPicker = ({ selectedCurrency, onValueChange }) => {
     return (
@@ -203,6 +312,28 @@ const OrderComponent = ({ onClose, saldoCarteira }) => {
             />
           </View>
         </View>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            bottom: 30,
+            padding: 15,
+            backgroundColor: "#FFCC00",
+            borderRadius: 8,
+            alignItems: "center",
+            width: "100%", // Largura total
+          }}
+          onPress={() => executarOrdem(selectedCurrency, orderType, quantity)}
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 18,
+              fontFamily: "SourceSansPro_700Bold",
+            }}
+          >
+            Concluir operação
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

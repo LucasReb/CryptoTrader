@@ -72,18 +72,15 @@ export function Home() {
         setEthereum(ethereumData);
         setTether(tetherData);
 
-        console.log(
-          "First Cryptocurrency Name:",
-          bitcoinData.price_change_percentage_24h
-        );
-        console.log(
-          "Second Cryptocurrency Name:",
-          ethereumData.price_change_percentage_24h
-        );
-        console.log(
-          "Second Cryptocurrency Name:",
-          tetherData.price_change_percentage_24h
-        );
+        // console.log("First Cryptocurrency Name:", bitcoinData);
+        // console.log(
+        //   "Second Cryptocurrency Name:",
+        //   ethereumData.price_change_percentage_24h
+        // );
+        // console.log(
+        //   "Second Cryptocurrency Name:",
+        //   tetherData.price_change_percentage_24h
+        // );
       }
     } catch (error) {
       console.log("ERRO NO CONSUMO DE API!", error);
@@ -337,9 +334,8 @@ export function Home() {
             </Text>
           )}
 
-          {userData &&
-            userData.QUANTIDADE_BITCOIN > 0 &&
-            userData.QUANTIDADE_ETHEREUM > 0 && (
+          {userData && (
+            <View>
               <Text
                 style={{
                   marginTop: 20,
@@ -350,7 +346,118 @@ export function Home() {
               >
                 Meus ativos
               </Text>
-            )}
+              <View style={globalStyles.cryptoBox}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    height: 75,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Image
+                    source={require("../assets/img/bitIcon.png")}
+                    style={{
+                      width: 64,
+                      height: 64,
+                      marginTop: 1,
+                      marginRight: 4,
+                    }}
+                  />
+                  <View>
+                    <Text style={globalStyles.cryptoBoxH3}>Bitcoin</Text>
+                    <Text style={globalStyles.cryptoBoxp}>
+                      Quantidade: {userData.QUANTIDADE_BITCOIN}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    alignItems: "center",
+                    height: 75,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text
+                    style={{
+                      marginLeft: 25,
+                      fontSize: 17,
+                      fontFamily: "SourceSansPro_700Bold",
+                      color:
+                        tether.price_change_percentage_24h < 0
+                          ? "#fb3b30"
+                          : "#4cd964",
+                    }}
+                  >
+                    {(
+                      userData.QUANTIDADE_BITCOIN *
+                      bitcoin.current_price *
+                      4.93
+                    ).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Text>
+                </View>
+              </View>
+              <View style={globalStyles.cryptoBox}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    height: 75,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Image
+                    source={require("../assets/img/ethIcon.png")}
+                    style={{
+                      width: 64,
+                      height: 64,
+                      marginTop: 1,
+                      marginRight: 4,
+                    }}
+                  />
+                  <View>
+                    <Text style={globalStyles.cryptoBoxH3}>Ethereum</Text>
+                    <Text style={globalStyles.cryptoBoxp}>
+                      Quantidade: {userData.QUANTIDADE_ETHEREUM}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    alignItems: "center",
+                    height: 75,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text
+                    style={{
+                      marginLeft: 25,
+                      fontSize: 17,
+                      fontFamily: "SourceSansPro_700Bold",
+                      color:
+                        tether.price_change_percentage_24h < 0
+                          ? "#fb3b30"
+                          : "#4cd964",
+                    }}
+                  >
+                    {(
+                      userData.QUANTIDADE_ETHEREUM *
+                      ethereum.current_price *
+                      4.93
+                    ).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
         </View>
       );
     }

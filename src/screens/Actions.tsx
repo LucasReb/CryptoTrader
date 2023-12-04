@@ -25,7 +25,6 @@ import { FIREBASE_AUTH } from "../hooks/useAuth";
 
 // Storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import OrderComponent from "../components/orderComponent";
 
 export function Actions({ navigation }) {
@@ -139,6 +138,7 @@ export function Actions({ navigation }) {
 
       if (user) {
         const userId = user.uid.toString();
+        setUserId(userId);
 
         const userData = await getUserData(userId);
 
@@ -251,6 +251,7 @@ export function Actions({ navigation }) {
             Alterar Saldo
           </Text>
         </Pressable> */}
+
         <TouchableOpacity
           onPress={handleOrderButtonClick}
           style={{
@@ -273,6 +274,8 @@ export function Actions({ navigation }) {
           <OrderComponent
             onClose={() => setShowOrders(false)}
             saldoCarteira={userData.SALDO_CARTEIRA}
+            bitcoin={bitcoin}
+            ethereum={ethereum}
           />
         )}
       </View>
