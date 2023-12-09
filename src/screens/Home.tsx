@@ -336,10 +336,44 @@ export function Home() {
                   maximumFractionDigits: 2,
                 })}
               </Text>
-              <Text
-                style={{
-                  position: "absolute",
-                  color:
+              {userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
+                userData.QUANTIDADE_ETHEREUM * ethereum.current_price * 4.93 !=
+                0 && (
+                <Text
+                  style={{
+                    position: "absolute",
+                    color:
+                      ((userData.QUANTIDADE_BITCOIN *
+                        bitcoin.current_price *
+                        4.93 +
+                        userData.QUANTIDADE_ETHEREUM *
+                          bitcoin.current_price *
+                          4.93 -
+                        userData.SALDO_INVESTIMENTO) /
+                        userData.SALDO_INVESTIMENTO) *
+                        100 <
+                      0
+                        ? "#fb3b30"
+                        : "#4cd964",
+                    left: 210,
+                    top: 16,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {((userData.QUANTIDADE_BITCOIN *
+                    bitcoin.current_price *
+                    4.93 +
+                    userData.QUANTIDADE_ETHEREUM *
+                      bitcoin.current_price *
+                      4.93 -
+                    userData.SALDO_INVESTIMENTO) /
+                    userData.SALDO_INVESTIMENTO) *
+                    100 >
+                  0
+                    ? "+"
+                    : " "}
+                  {(
                     ((userData.QUANTIDADE_BITCOIN *
                       bitcoin.current_price *
                       4.93 +
@@ -348,35 +382,11 @@ export function Home() {
                         4.93 -
                       userData.SALDO_INVESTIMENTO) /
                       userData.SALDO_INVESTIMENTO) *
-                      100 <
-                    0
-                      ? "#fb3b30"
-                      : "#4cd964",
-                  left: 210,
-                  top: 16,
-                  fontSize: 18,
-                  fontWeight: "bold"
-                }}
-              >
-                {((userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
-                  userData.QUANTIDADE_ETHEREUM * bitcoin.current_price * 4.93 -
-                  userData.SALDO_INVESTIMENTO) /
-                  userData.SALDO_INVESTIMENTO) *
-                  100 >
-                0
-                  ? "+"
-                  : " "}
-                {(
-                  ((userData.QUANTIDADE_BITCOIN * bitcoin.current_price * 4.93 +
-                    userData.QUANTIDADE_ETHEREUM *
-                      bitcoin.current_price *
-                      4.93 -
-                    userData.SALDO_INVESTIMENTO) /
-                    userData.SALDO_INVESTIMENTO) *
-                  100
-                ).toFixed(2)}
-                %
-              </Text>
+                    100
+                  ).toFixed(2)}
+                  %
+                </Text>
+              )}
             </View>
           )}
 

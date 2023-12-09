@@ -221,12 +221,12 @@ export function Actions({ navigation }) {
                 style: "currency",
                 currency: "BRL",
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
+                maximumFractionDigits: 0, 
               })}
             </Text>
           )}
         </View>
-        <Text
+        {/* <Text
           style={{
             marginTop: 22,
             fontSize: 24,
@@ -236,7 +236,7 @@ export function Actions({ navigation }) {
           }}
         >
           Transações
-        </Text>
+        </Text> */}
 
         {/* <Pressable
           style={{
