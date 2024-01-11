@@ -6,5 +6,5 @@
 ![4](https://github.com/LucasReb/crypto-trader/assets/54152996/3516accf-6e0f-4ad1-8509-c6d80b8550f7)
 ![5](https://github.com/LucasReb/crypto-trader/assets/54152996/fa764875-6eaf-4d21-9387-9360f48845bb)
 ![6](https://github.com/LucasReb/crypto-trader/assets/54152996/52f1f813-513a-4646-ad70-afe86eb18ed8)
-![7](https://github.com/LucasReb/crypto-trader/assets/54152996/f86eb5de-1842-42c6-8427-d1bb12f2d53d)
+
 </h6>
